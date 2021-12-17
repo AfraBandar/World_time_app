@@ -12,17 +12,17 @@ class Loading extends StatefulWidget {
 
 class _State extends State<Loading> {
 
-  String time1 = 'loading';//initial value until the getTime data is complete
 
   void setupWorldTime() async {
     WorldTime instance = WorldTime ('London','london.png','Europe/London');
     await instance.getTime();
-    print(instance.time);
-    
-    setState(() {
-      time1 = instance.time;
-    });// to refresh the time variable after getting the data
-    
+
+     Navigator.pushReplacementNamed(context, '/home',arguments: {
+      'location': instance.location,
+      'flag':instance.flag,
+      'time':instance.time,
+    });//directs result to home page and removes the loading page from stack
+
   }//create an object instance to connect the getTime function to this page
 
   @override
@@ -36,7 +36,7 @@ class _State extends State<Loading> {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(50.0),
-        child:Text(time1),
+        child:Text('Loading'),
       ),
     );
   }

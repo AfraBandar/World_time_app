@@ -1,5 +1,6 @@
 import 'package:http/http.dart' ;
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class WorldTime{
   late String location; //location name for the ui
@@ -32,7 +33,7 @@ class WorldTime{
       //and then converted to an int
 
       //set time property
-      time = now.toString(); //convert the datetime object into a string then store it in the time variable
+      time = DateFormat.jm().format(now); //convert the datetime object into a string then store it in the time variable
 
     }
     catch (e) {
