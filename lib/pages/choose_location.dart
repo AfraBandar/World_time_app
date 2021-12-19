@@ -12,7 +12,6 @@ class _State extends State<ChooseLocation> {
       WorldTime ('Cairo','assets/cairo.png','Africa/Cairo'),
       WorldTime ('Tunis','assets/tunis.png','Africa/Tunis'),
       WorldTime ('Lagos','assets/lagos.png','Africa/Lagos'),
-      WorldTime ('Los Angeles','assets/us.png','America/Los_Angeles'),
       WorldTime ('New York','assets/us.png','America/New_York'),
       WorldTime ('Baghdad','assets/baghdad.png','Asia/Baghdad'),
       WorldTime ('Bangkok','assets/bangkok.png','Asia/Bangkok'),
@@ -33,19 +32,55 @@ class _State extends State<ChooseLocation> {
       WorldTime ('Berlin','assets/berlin.png','Europe/Berlin'),
     ];
 
+    void updateTime(index) async {
+      WorldTime instance = locations[index];
+      await instance.getTime();
+
+      //navigate back to home page
+      Navigator.pop (context, {
+        'location': instance.location,
+        'flag':instance.flag,
+        'time':instance.time,
+        'isDayTime': instance.isDayTime,
+      });
+    }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.red,
-        title: Text('Choose a location'),
+        backgroundColor: Colors.black54,
+        title: Text('Choose Location',
+          style: TextStyle(
+            color: Colors.white,
+        ),
+        ),
         centerTitle: true,
         elevation: 0,
       ),
-      body: RaisedButton(
-          onPressed: (){}
-          ),
+      body: ListView.builder(
+        itemCount: locations.length,
+          itemBuilder: (context, index){
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+              child: Card(
+                color: Colors.grey[200],
+                child: ListTile(
+                  onTap: (){
+                    updateTime (index);
+                  },
+                  title: Text(locations[index].location),
+                  leading: SizedBox(
+                    height: 100.0,
+                    width:50.0,
+                    child: Image.asset('${locations[index].flag}'),
+                  ),
+                ),
+              ),
+            );
+          },
+      )
     );
   }
 }
